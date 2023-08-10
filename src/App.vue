@@ -23,8 +23,9 @@
 
         computed: {
             currentView() {
+                const template = currentTemplate(this.currentPath);
                 return defineAsyncComponent(() => {
-                    return import('@/' + currentTemplate());
+                    return import('@/' + template);
                 })
             }
         },
