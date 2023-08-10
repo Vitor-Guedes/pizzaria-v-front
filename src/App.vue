@@ -1,36 +1,21 @@
 <template>
     <div>
-        <Header />
+        <block-header />
+
+        <block-alert ref="flashMessage"/>
         
-        <Alert ref="flashMessage"/>
-
         <component :is="currentView" />
-
-        <Footer />
+        
+        <block-footer />
     </div>
 </template>
 
 <script>
-    import Header from './components/Header.vue';
-    import Footer from './components/Footer.vue';
-    import Alert from './components/Alert.vue';
-
-    import Home from './views/Home.vue';
-    import Dashboard from './views/Dashboard.vue';
-
-    const routes = {
-        "/": Home,
-        "/dashboard": Dashboard
-    };
+    import { defineAsyncComponent } from 'vue';
+    import { currentTemplate } from './config/routes.js';
 
     export default {
-        components: {
-            Header,
-            Footer,
-            Alert
-        },
-
-        data() {
+        data () {
             return {
                 currentPath: window.location.hash
             }
@@ -38,11 +23,12 @@
 
         computed: {
             currentView() {
-                console.log(this.currentPath.slice(1));
-                return routes[this.currentPath.slice(1) || '/'];
+                return defineAsyncComponent(() => {
+                    return import('@/' + currentTemplate());
+                })
             }
         },
-        
+
         mounted () {
             window.addEventListener('hashchange', () => {
                 this.currentPath = window.location.hash

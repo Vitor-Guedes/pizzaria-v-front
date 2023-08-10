@@ -1,13 +1,16 @@
 <template>
     <header>
         <nav class="navbar navbar-expand-lg">
-            <a href="/" class="navbar-brand">
+            <a href="/#" class="navbar-brand">
                 <img src="/images/pizza.svg" alt="Pizaria do V" id="brand-logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a href="/" class="nav-link">Peça sua pizza</a>
+                        <a href="/#" class="nav-link">Peça sua pizza</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#/dashboard" class="nav-link">Pedidos</a>
                     </li>
                 </ul>
             </div>

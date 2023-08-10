@@ -47,7 +47,7 @@ export default {
 
     methods: {
         sendOrder() {
-            
+            console.log(this.$refs);
         },
     },
 
