@@ -1,4 +1,6 @@
 <template>
+    <slot name="block-header"></slot>
+
     <div id="main-banner">
         <h1>Faça seu Pedido</h1>
     </div>
@@ -39,9 +41,14 @@
             </div>
         </div>
     </div>
+
+    <slot name="block-footer"></slot>
 </template>
 
 <script>
+// import { defineAsyncComponent } from 'vue';
+// import { currentComponents, currentPath } from '@/config/routes';
+
 export default {
     name: 'HomeView',
 

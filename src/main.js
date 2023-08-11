@@ -1,13 +1,17 @@
 import { createApp, defineAsyncComponent } from 'vue'
-import App from './App.vue'
-import { componentsView } from './config/routes.js';
+import { Router, componentsView } from "./config/routes";
 
-const app = createApp(App);
+Router.build()
+    .then(routes => {
+        Router.routes = routes;
+        componentsView();
+        
+        const App = defineAsyncComponent(() => import('./App.vue'));
 
-componentsView().forEach(component => {
-    app.component(component.name, defineAsyncComponent(() => {
-        return import('@/' + component.path);
-    }));
-});
+        const app = createApp(App);
 
-app.mount('#app')
+        app.mount('#app');
+    })
+    .catch(error => {
+        console.log(error);
+    });

@@ -1,13 +1,21 @@
 module.exports = {
     root: true,
     env: {
-      browser: true,
+      // browser: true,
       node: true,
+      es6: true
     },
     extends: [
       "plugin:vue/vue3-essential",
       "eslint:recommended"
     ],
+    // parser: "babel-eslint",
+    parserOptions: {
+      // parser: 'babel-eslint',
+      parser: "@babel/eslint-parser",
+      ecmaVersion: "latest",
+      sourceType: 'module'
+    },
     plugins: [],
     overrides: [
       {

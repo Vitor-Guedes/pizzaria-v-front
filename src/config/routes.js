@@ -1,58 +1,69 @@
-const routes = {
-    '/': {
-        components: [
-           {
-                name: 'block-header',
-                path: 'components/Header.vue'
-            },
-            {
-                name: 'block-footer',
-                path: 'components/Footer.vue'
-            },
-            {
-                name: 'block-alert',
-                path: 'components/Alert.vue'
-            }
-        ],
-        template: 'views/Home.vue'
-    },
-    '/dashboard': {
-        components: [
-            {
-                name: 'block-header',
-                path: 'components/Header.vue'
-            },
-            {
-                name: 'block-footer',
-                path: 'components/Footer.vue'
-            },
-            {
-                name: 'block-alert',
-                path: 'components/Alert.vue'
-            }
-        ],
-        template: 'views/Dashboard.vue'
+import { defineAsyncComponent } from "vue";
+
+export class Router {
+    static routes = {};
+
+    static components = {};
+
+    static componentsByRouter = {};
+
+    static async build () {
+        const response = await fetch(process.env.VUE_APP_API_BACKEND);
+        return await response.json();
     }
 }
 
-function currentView (path) {
-    var _currentPath = path || window.location.hash || '';
-    var view = routes[_currentPath.slice(1) || '/'];
-    return view;
+export function componentsView () {
+    var components = {};
+    Object.keys(Router.routes).forEach(route => {
+        Router.routes[route].components.forEach(component => {
+            // components[component.name] = defineAsyncComponent(() => {
+            //     import('@/' + component.path)
+            // })
+            components[component.name] = component.path;
+        });
+
+        Router.componentsByRouter[route] = Router.routes[route].components
+            .map(component => component.name);
+    });
+
+    Router.components = components;
 }
 
-function currentTemplate(path) {
-    return currentView(path).template;
+export function currentTemplate (path) {
+    return Router.routes[
+        path.slice(1) || '/'
+    ].template;
 }
 
-function componentsView (path) {
-    return currentView(path).components;
+export function currentComponents (path) {
+    var components = {};
+    const routerComponents = Router.routes[path].components;
+    routerComponents.forEach(component => {
+        components[component.name] = defineAsyncComponent(() => {
+            return import('@/' + component.path);
+        });
+    });
+    return components;
 }
 
-module.exports.routes = routes;
+export function currentPath () {
+    return window.location.hash.slice(1) || '/';
+}
 
-module.exports.currentView = currentView;
+export function getAllComponents () {
+    var components = {};
+    Object.keys(Router.components).forEach(component => {
+        components[component] = defineAsyncComponent(() => {
+            return import('@/' + Router.components[component])
+        });
+    });
+    return components;
+}
 
-module.exports.currentTemplate = currentTemplate;
-
-module.exports.componentsView = componentsView;
+export function getComponentByRouter (path) {
+    const components = Router.componentsByRouter[
+        path.slice(1) || '/'
+    ];
+    return components;
+}

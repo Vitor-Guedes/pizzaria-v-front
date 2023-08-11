@@ -1,4 +1,10 @@
 <template>
+    <slot name="block-header" />
+
+    <div id="main-banner">
+        <h1>Faça seu Pedido</h1>
+    </div>
+
     <div id="main-container">
         <div class="container">
             <div class="row">
@@ -42,9 +48,14 @@
             </div>
         </div>
     </div>
+
+    <slot name="block-footer" />
 </template>
 
 <script>
+// import { defineAsyncComponent } from 'vue';
+// import {  getComponent } from '@/config/routes';
+
 export default {
     name: 'DashBoard',
 
@@ -86,6 +97,39 @@ export default {
 </script>
 
 <style>
+    #main-banner {
+        background-image: url('~@/../public/images/pizza-banner.jpg');
+        height: 300px;
+        background-position: center;
+        background-size: cover;
+        width: 100%;
+        background-position-y: -300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;   
+    }
+
+    #main-banner h1 {
+        color: #fff;
+        background-color: #000;
+        text-align: center;
+        padding: 30px;
+        text-transform: uppercase;
+        width: 550px;
+        font-size: 50px;
+    }
+
+     #main-container {
+        margin-bottom: 100px;
+        padding: 50px 0;
+        text-align: center;
+        min-height: 50%;
+    }
+
+    #main-container h2 {
+        margin-bottom: 30px;
+    }
+
     .delete-btn {
         border: none;
         background-color: transparent;
